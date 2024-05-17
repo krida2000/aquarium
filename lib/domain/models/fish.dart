@@ -9,21 +9,30 @@ class Fish {
     required this.top,
     required this.left,
     required this.direction,
-  });
+    int fishEaten = 0,
+    Duration eatAgo = Duration.zero,
+  })  : _fishEaten = fishEaten,
+        _eatAgo = eatAgo;
 
   /// Constructs a [Fish] with a random fields.
   factory Fish.random({required double height, required double width}) {
     final Random random = Random();
 
     return Fish(
-      size: random.nextInt(5) + 1,
+      size: random.nextInt(maxSize) + minSize,
       top: random.nextDouble() * height,
       left: random.nextDouble() * width,
       direction: Vector2RandomExtension.random(),
     );
   }
 
-  /// Size of this [Fish] form 1 to 5.
+  /// Maximum size of a [Fish].
+  static int maxSize = 5;
+
+  /// Minimal size of a [Fish].
+  static int minSize = 1;
+
+  /// Size of this [Fish] form [minSize] to [maxSize].
   int size;
 
   /// Top position of this [Fish].
@@ -34,6 +43,41 @@ class Fish {
 
   /// Move direction of this [Fish].
   Vector2 direction;
+
+  /// [Duration] how long ago this [Fish] ate last time.
+  Duration _eatAgo;
+
+  /// Amount of fished this [Fish] has eaten.
+  ///
+  /// Drops to 0 when this [Fish] has eaten enough to increase its [size].
+  int _fishEaten;
+
+  set fishEaten(int count) {
+    if (count == size && size < maxSize) {
+      size += 1;
+      _fishEaten = 0;
+    } else if (count < 0) {
+      if (size > minSize) {
+        size -= 1;
+        _fishEaten = 0;
+      }
+    } else {
+      _fishEaten = count;
+    }
+  }
+
+  set eatAgo(Duration duration) {
+    if (duration >= const Duration(seconds: 3)) {
+      fishEaten--;
+      _eatAgo = Duration.zero;
+    } else {
+      _eatAgo = duration;
+    }
+  }
+
+  int get fishEaten => _fishEaten;
+
+  Duration get eatAgo => _eatAgo;
 }
 
 extension Vector2RandomExtension on Vector2 {
