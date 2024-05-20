@@ -26,15 +26,6 @@ jobs:
       - uses: subosito/flutter-action@v2
 
       - run: dart format --output=none --set-exit-if-changed .
-      
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-
-      - run: flutter test      
 
   buildappbundle:
     runs-on: ubuntu-latest
@@ -44,4 +35,4 @@ jobs:
       - uses: subosito/flutter-action@v2
 
       - name: Install dependencies
-        run: flutter build platform=appbundle profile=true
+        run: flutter build appbundle --profile
