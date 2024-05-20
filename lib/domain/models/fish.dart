@@ -67,7 +67,7 @@ class Fish {
   }
 
   set eatAgo(Duration duration) {
-    if (duration >= const Duration(seconds: 3)) {
+    if (duration >= const Duration(seconds: 5)) {
       fishEaten--;
       _eatAgo = Duration.zero;
     } else {

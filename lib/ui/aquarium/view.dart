@@ -15,6 +15,7 @@ class AquariumView extends StatelessWidget {
       init: AquariumController(),
       builder: (AquariumController c) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: Scaffold(
             body: Obx(() {
               return Stack(
